@@ -13,3 +13,5 @@ def answer():
     if ans == 'no':
         return 'you entered no'
 
+# Run from cmd prompt: python -c "from q2_scratchpad5 import *; print(answer())"
+

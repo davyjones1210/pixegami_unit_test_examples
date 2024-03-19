@@ -1,11 +1,26 @@
+import unittest
+from unittest.mock import patch
+from io import StringIO
 from q2_scratchpad4 import yes_or_no
-import mock
 
+class TestYesOrNo(unittest.TestCase):
+    @patch('builtins.input', return_value="yes")
+    def test_yes_answer(self, mock_input):
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            yes_or_no()
+            self.assertEqual(mock_stdout.getvalue().strip(), "Quitter!")
 
-def test_quitting():
+    @patch('builtins.input', return_value="no")
+    def test_no_answer(self, mock_input):
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            yes_or_no()
+            self.assertEqual(mock_stdout.getvalue().strip(), "Awesome!")
 
-    with mock.patch('builtins.input', return_value="yes"):
-        assert yes_or_no() == "Quitter!"
+    @patch('builtins.input', return_value="maybe")
+    def test_invalid_answer(self, mock_input):
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            yes_or_no()
+            self.assertEqual(mock_stdout.getvalue().strip(), "BANG!")
 
-    with mock.patch('builtins.input', return_value="no"):
-        assert yes_or_no() == "Awesome!"
+if __name__ == "__main__":
+    unittest.main()
